@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
+import {connect} from 'react-redux'
 
 class Counter extends Component {
     state = {
@@ -28,14 +29,42 @@ class Counter extends Component {
     render () {
         return (
             <div>
-                <CounterOutput value={this.state.counter} />
-                <CounterControl label="Increment" clicked={() => this.counterChangedHandler( 'inc' )} />
-                <CounterControl label="Decrement" clicked={() => this.counterChangedHandler( 'dec' )}  />
-                <CounterControl label="Add 5" clicked={() => this.counterChangedHandler( 'add', 5 )}  />
-                <CounterControl label="Subtract 5" clicked={() => this.counterChangedHandler( 'sub', 5 )}  />
+                <CounterOutput value={this.props.ctr} />
+                <CounterControl label="Increment" clicked={ this.props.anyNameIncrementForExample} />
+                <CounterControl label="Decrement" clicked={this.props.decrementHandler}  />
+                <CounterControl label="Add 30" clicked={this.props.addHandler}  />
+                <CounterControl label="Subtract 30" clicked={this.props.subtractHandler}  />
             </div>
         );
     }
 }
 
-export default Counter;
+const mapStateToProps = (state) => {
+    return {
+        ctr: state.counter
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    console.log('sfe')
+    return {
+        anyNameIncrementForExample : () => dispatch({
+            type: 'INCREMENT'
+        }),
+        decrementHandler : () => dispatch({
+            type: 'DECREMENT'
+        }),
+        addHandler : () => dispatch({
+            type: 'ADD',
+            value: 30
+        }),
+        subtractHandler : () => dispatch({
+            type: 'SUBTRACT',
+            value: 30
+        })
+    
+    }
+        
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Counter);
