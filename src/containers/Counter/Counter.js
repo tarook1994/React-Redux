@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
-import * as actionTypes from '../../store/actions'
+import * as actionCreator from '../../store/actions'
 import { connect } from 'react-redux'
 
 class Counter extends Component {
@@ -40,7 +40,7 @@ class Counter extends Component {
                 <button onClick={() => this.props.storeHandler(this.props.ctr)}>Store result</button>
                 <ul>
                     {this.props.rslt.map(result => {
-                        return <li onClick= {this.deleteHandler}>{result}</li>
+                        return <li onClick={this.deleteHandler}>{result}</li>
                     })}
                 </ul>
 
@@ -60,24 +60,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     console.log('sfe')
     return {
-        anyNameIncrementForExample: () => dispatch({
-            type: actionTypes.INCREAMENT
-        }),
-        decrementHandler: () => dispatch({
-            type: actionTypes.DECREMENT
-        }),
-        addHandler: () => dispatch({
-            type: actionTypes.ADD,
-            value: 30
-        }),
-        subtractHandler: () => dispatch({
-            type: actionTypes.SUBTRACT,
-            value: 30
-        }),
-        storeHandler: (result) => dispatch({
-            type: actionTypes.STORE_RESULT,
-            result : result
-        }),
+        anyNameIncrementForExample: () => dispatch(actionCreator.increament()),
+        decrementHandler: () => dispatch(actionCreator.decrement()),
+        addHandler: () => dispatch(actionCreator.add(30)),
+        subtractHandler: () => dispatch(actionCreator.subtract(30)),
+        storeHandler: (result) => dispatch(actionCreator.store(result)),
         deleteHandler: () => dispatch({
             type: 'DELETE_RESULT'
         })
